@@ -1,0 +1,58 @@
+
+- To setup scheduler there some defines you have to set in defines.php :
+
+ // this is the default name of table , if you change also change in cdr_mysql_table.sql 
+ define ("SCHEDULER_TABLENAME","scheduler"); 
+ 
+ // Log file file , set the rights to allow create and write it.
+ define ("SCHEDULER_LOGFILE","/var/log/scheduler/scheduler.log");
+
+ // Path and prefix to generate the pdfs reports
+ // So /tmp/scheduler-1.pdf /tmp/scheduler-20.pdf will generate
+ // where the number is the id of scheduler in database table.
+ define ("SCHEDULER_PDF_PATH","/tmp/scheduler");
+ 
+
+ *  MAIL *
+ 
+ The mail uses PEAR , so you need to install php-pear and some pear packages :
+
+ * Mail
+ * Mail_Mime
+
+ pear install Mail Mail_Mime
+
+ you need to setup the include path of pear in php.ini
+
+ - In Debian (/etc/php4/cli/php.ini) :
+ - In Fedora/Redhat (/etc/php.ini) :
+ 
+ include_path = ".:/usr/share/php"
+
+ * some defines in defines.php
+
+ define ("SCHEDULER_MAIL_FROM","root@localhost");
+
+ * CRONTAB *
+
+ Finally add a new line to crontab to run every hour :
+
+ crontab -e ( you can set as root so you won't have problems with SCHEDULER_LOGFILE ).
+
+ 5 * * * *  /path_to_scheduler_directory/scheduler.php
+
+ ( 5 * * * *  /var/www/html/radius-stat/asterisk-stat/crontjob/scheduler.php )
+
+ * NOTE *
+
+ - Be sure that scheduler.php and export_pdf_scheduler.php can be executed by
+ the owner of crontab task.
+
+ chmod +x export_pdf_scheduler.php scheduler.php
+ 
+ - Check that the owner of crontab task has rights to write SCHEDULER_LOGFILE file.
+
+ - Check that the owner of crontab task has rights to write on SCHEDULER_PDF_PATH
+
+ - Check that php ( from cgi or cli ) is on /usr/bin/php
+

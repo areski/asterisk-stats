@@ -1,0 +1,18 @@
+
+
+ * Install *
+
+ - Get svn copy in apache document root
+
+ cd /var/www/html/
+
+ download and copy
+ 
+ - Create database ( Mysql )
+
+ cd Doc/
+ 
+ mysql -u root -p"root password" < cdr_mysql_table.sql
+
+
+ 
